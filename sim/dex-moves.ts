@@ -125,6 +125,8 @@ export interface MoveEventMethods {
 	onTryImmunity?: CommonHandlers['ResultMove'];
 	onTryMove?: CommonHandlers['ResultSourceMove'];
 	onUseMoveMessage?: CommonHandlers['VoidSourceMove'];
+	// Modifies secondary chance effects for custom moves that increase chances with successive uses (i.e. Germ Spray)
+	secondaryChanceCallback?: (this: Battle, pokemon: Pokemon, chance: number, move: ActiveMove) => number | undefined;
 }
 
 export interface MoveData extends EffectData, MoveEventMethods, HitEffect {

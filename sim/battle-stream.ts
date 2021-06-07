@@ -94,6 +94,64 @@ export class BattleStream extends Streams.ObjectReadWriteStream<string> {
 		this.push(`${type}\n${data}`);
 	}
 
+	sendToJSON(obj: Battle | Side | Pokemon) {
+		// JSON.stringify Test
+		// Note: cache should not be re-used by repeated calls to JSON.stringify.
+		let cache: any[] | null = [];
+		const objString = JSON.stringify(obj, (key, value) => {
+			if (typeof value === 'object' && value !== null) {
+			// Duplicate reference found, discard key
+				if (cache!.includes(value)) return;
+
+				// Store value in our collection
+				cache!.push(value);
+			}
+			return value;
+		});
+		// console.log(cache);
+		cache = null; // Enable garbage collection
+
+
+		// safely handles circular references
+		// JSON.safeStringify = (obj: any, indent = 2) => {
+		// 	let cache: any[] | null = [];
+		// 	const retVal = JSON.stringify(
+		// 		obj,
+		// 		(key, value) =>
+		// 			typeof value === "object" && value !== null ?
+		// 				cache!.includes(value) ?
+		// 					undefined : // Duplicate reference found, discard ke
+		// 					cache!.push(value) && value : // Store value in our collection
+		// 				value,
+		// 		indent
+		// 	);
+		// 	cache = null;
+		// 	return retVal;
+		// };
+		// // Example:
+		// console.log('options', JSON.safeStringify(pokemon));
+
+
+		// Circular Replace Test
+		// const getCircularReplacer = () => {
+		// 	// eslint-disable-next-line no-restricted-globals
+		// 	const seen = new WeakSet();
+		// 	return (_key: any, value: object | null) => {
+		// 	  if (typeof value === "object" && value !== null) {
+		// 			if (seen.has(value)) {
+		// 				return;
+		// 			}
+		// 			seen.add(value);
+		// 	  }
+		// 	  return value;
+		// 	};
+		// };
+		// const objString = JSON.stringify(pokemon, getCircularReplacer());
+
+		console.log(objString);
+		console.log('Success: Object converted to string form.');
+	}
+
 	_writeLine(type: string, message: string) {
 		switch (type) {
 		case 'start':
@@ -105,6 +163,16 @@ export class BattleStream extends Streams.ObjectReadWriteStream<string> {
 			};
 			if (this.debug) options.debug = true;
 			this.battle = new Battle(options);
+			break;
+		case 'pause':
+			// const testBattle = this.battle!;
+			// const testSide = this.battle!.sides[0];
+			const testPokemon = this.battle!.sides[0].pokemon[0];
+			// this.sendToJSON(testBattle);
+			// this.sendToJSON(testSide);
+			this.sendToJSON(testPokemon);
+			break;
+		case 'resume':
 			break;
 		case 'player':
 			const [slot, optionsText] = splitFirst(message, ' ');
@@ -118,6 +186,14 @@ export class BattleStream extends Streams.ObjectReadWriteStream<string> {
 				this.battle!.undoChoice(type);
 			} else {
 				this.battle!.choose(type, message);
+			}
+			break;
+		case 'updatePlayerState':
+			const pokemonStates = JSON.parse(message);
+			for (const pokeState of pokemonStates) {
+				this.battle!.sides[0].pokemon[pokeState.position].hp = pokeState.hp;
+				// Need to figure out status names and all places fainted pokemon are stored
+				// this.battle!.sides[0].pokemon[pokeState.position].status = pokeState.status;
 			}
 			break;
 		case 'forcewin':
