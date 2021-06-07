@@ -1324,10 +1324,17 @@ export class BattleActions {
 				this.battle.runEvent('ModifySecondaries', target, source, moveData, moveData.secondaries.slice());
 			for (const secondary of secondaries) {
 				const secondaryRoll = this.battle.random(100);
+				if (move.secondaryChanceCallback) {
+					if (secondary.chance) {
+						const chance: number = secondary.chance;
+						secondary.chance = move.secondaryChanceCallback.call(this.battle, source, chance, move);
+					}
+				}
 				// User stat boosts or target stat drops can possibly overflow if it goes beyond 256 in Gen 8 or prior
 				const secondaryOverflow = (secondary.boosts || secondary.self) && this.battle.gen <= 8;
 				if (typeof secondary.chance === 'undefined' ||
 					secondaryRoll < (secondaryOverflow ? secondary.chance % 256 : secondary.chance)) {
+
 					this.moveHit(target, source, move, secondary, true, isSelf);
 				}
 			}
