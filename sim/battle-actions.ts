@@ -1259,6 +1259,12 @@ export class BattleActions {
 				this.battle.runEvent('ModifySecondaries', target, source, moveData, moveData.secondaries.slice());
 			for (const secondary of secondaries) {
 				const secondaryRoll = this.battle.random(100);
+				if (move.secondaryChanceCallback) {
+					if (secondary.chance) {
+						const chance: number = secondary.chance;
+						secondary.chance = move.secondaryChanceCallback.call(this.battle, source, chance, move);
+					}
+				}
 				if (typeof secondary.chance === 'undefined' || secondaryRoll < secondary.chance) {
 					this.moveHit(target, source, move, secondary, true, isSelf);
 				}
