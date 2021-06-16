@@ -18,3 +18,4 @@ export {Pokemon} from './pokemon';
 export {PRNG} from './prng';
 export {Side} from './side';
 export {TeamValidator} from './team-validator';
+export {RandomPlayerAI} from './tools/random-player-ai';
