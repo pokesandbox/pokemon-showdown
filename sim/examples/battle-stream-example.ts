@@ -30,13 +30,13 @@ const p2spec = {
 	team: Teams.pack(Teams.generate('gen8randombattle')),
 };
 
-const p1 = new RandomPlayerAI(streams.p1);
+// const p1 = new RandomPlayerAI(streams.p1);
 const p2 = new RandomPlayerAI(streams.p2);
 
-console.log("p1 is " + p1.constructor.name);
+// console.log("p1 is " + p1.constructor.name);
 console.log("p2 is " + p2.constructor.name);
 
-void p1.start();
+// void p1.start();
 void p2.start();
 
 void (async () => {
@@ -47,4 +47,7 @@ void (async () => {
 
 void streams.omniscient.write(`>start ${JSON.stringify(spec)}
 >player p1 ${JSON.stringify(p1spec)}
->player p2 ${JSON.stringify(p2spec)}`);
+>player p2 ${JSON.stringify(p2spec)}
+>p1 team 123456
+>p2 team 123456
+>p1 move 1`);

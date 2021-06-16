@@ -3536,6 +3536,9 @@ export const PokedexText: {[k: string]: PokedexText} = {
 	siamacho: {
 		name: "Siamacho",
 	},
+	siamachobluestriped: {
+		name: "Siamacho",
+	},
 	gravendou: {
 		name: "Gravendou",
 	},
@@ -3556,6 +3559,9 @@ export const PokedexText: {[k: string]: PokedexText} = {
 	},
 	josuche: {
 		name: "Josuche",
+	},
+	josuchef: {
+		name: "Josuche-F",
 	},
 	rapscalion: {
 		name: "Rapscalion",
