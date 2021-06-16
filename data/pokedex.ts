@@ -6138,6 +6138,7 @@ export const Pokedex: {[speciesid: string]: SpeciesData} = {
 		heightm: 1.3,
 		weightkg: 40.3,
 		color: "White",
+		evos: ["Zanthera"],
 		eggGroups: ["Field"],
 	},
 	seviper: {
@@ -6149,6 +6150,7 @@ export const Pokedex: {[speciesid: string]: SpeciesData} = {
 		heightm: 2.7,
 		weightkg: 52.5,
 		color: "Black",
+		evos: ["Seviron"],
 		eggGroups: ["Field", "Dragon"],
 	},
 	lunatone: {

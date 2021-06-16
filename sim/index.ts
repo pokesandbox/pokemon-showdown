@@ -28,3 +28,4 @@ export {TeamValidator} from './team-validator';
 // misc libraries
 
 export * from '../lib';
+export {RandomPlayerAI} from './tools/random-player-ai';
