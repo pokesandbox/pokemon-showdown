@@ -16,7 +16,9 @@ import {RandomPlayerAI} from '../tools/random-player-ai';
  * Run AI
  *********************************************************************/
 
-const streams = getPlayerStreams(new BattleStream());
+const battleStream = new BattleStream();
+
+const streams = getPlayerStreams(battleStream);
 
 const spec = {
 	formatid: "gen8customgame",
@@ -39,9 +41,47 @@ console.log("p2 is " + p2.constructor.name);
 // void p1.start();
 void p2.start();
 
+let i = 2;
+let k = 2;
+
 void (async () => {
 	for await (const chunk of streams.omniscient) {
 		console.log(chunk);
+
+		const results = chunk.split('\n');
+
+		for (const line of results) {
+			const item = line.split('|');
+			if (item[1] === 'turn') {
+				if (parseInt(item[2]) > 1) {
+					void streams.omniscient.write(`>p1 move ${k}`);
+					k++;
+					if (k === 5) k = 1;
+				}
+				console.log('\np1 active requests \n');
+				console.log(battleStream.battle!.p1.activeRequest);
+				console.log('\np2 active requests \n');
+				console.log(battleStream.battle!.p2.activeRequest);
+			}
+			if (item[1] === 'faint' && i < 7) {
+				if (item[2].split(':')[0] === 'p1a') {
+					void streams.omniscient.write(`>p1 switch ${i}`);
+					i++;
+				}
+				if (item[2].split(':')[0] === 'p2a') {
+					// do nothing
+				}
+
+				console.log('\ninput Log \n');
+				console.log(battleStream.battle!.inputLog);
+				console.log('\nmessage Log \n');
+				console.log(battleStream.battle!.messageLog);
+				console.log('\np1 active requests \n');
+				console.log(battleStream.battle!.p1.activeRequest);
+				console.log('\np2 active requests \n');
+				console.log(battleStream.battle!.p2.activeRequest);
+			}
+		}
 	}
 })();
 
