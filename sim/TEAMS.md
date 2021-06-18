@@ -157,48 +157,104 @@ Packed format
 Packed format looks like this:
 
 ```
-Articuno||leftovers|pressure|icebeam,hurricane,substitute,roost|Modest|252,,,252,4,||,,,30,30,|||]Ludicolo||lifeorb|swiftswim|surf,gigadrain,icebeam,raindance|Modest|4,,,252,,252|||||]Volbeat||damprock|prankster|tailglow,batonpass,encore,raindance|Bold|248,,252,,8,|M||||]Seismitoad||lifeorb|swiftswim|hydropump,earthpower,stealthrock,raindance|Modest|,,,252,4,252|||||]Alomomola||damprock|regenerator|wish,protect,toxic,raindance|Bold|252,,252,,4,|||||]Armaldo||leftovers|swiftswim|xscissor,stoneedge,aquatail,rapidspin|Adamant|128,252,4,,,124|||||
+Articuno||leftovers|pressure|icebeam,hurricane,substitute,roost|Modest|252,,,252,4,||,,,30,30,|||]
+Ludicolo||lifeorb|swiftswim|surf,gigadrain,icebeam,raindance|Modest|4,,,252,,252|||||]
+Volbeat||damprock|prankster|tailglow,batonpass,encore,raindance|Bold|248,,252,,8,|M||||]
+Seismitoad||lifeorb|swiftswim|hydropump,earthpower,stealthrock,raindance|Modest|,,,252,4,252|||||]
+Alomomola||damprock|regenerator|wish,protect,toxic,raindance|Bold|252,,252,,4,|||||]
+Armaldo||leftovers|swiftswim|xscissor,stoneedge,aquatail,rapidspin|Adamant|128,252,4,,,124|||||
 ```
+
+(Line breaks added for readability - this is all one line normally.)
+
+The format is a list of pokemon delimited by `]`, where every Pokémon is:
+
+```
+NICKNAME|SPECIES|ITEM|ABILITY|MOVES|NATURE|EVS|GENDER|IVS|SHINY|LEVEL|HAPPINESS,POKEBALL,HIDDENPOWERTYPE
+```
+
+- `SPECIES` is left blank if it's identical to `NICKNAME`
+
+- `ABILITY` is `0`, `1`, or `H` if it's the ability from the corresponding slot
+  for the Pokémon. It can also be an ability string, for Hackmons etc.
+
+- `MOVES` is a comma-separated list of move IDs.
+
+- `NATURE` left blank means Serious, except in Gen 1-2, where it means no Nature.
+
+- `EVS` and `IVS` are comma-separated in standard order:
+  HP, Atk, Def, SpA, SpD, Spe. EVs left blank are 0, IVs left blank are 31.
+  If all EVs or IVs are blank, the commas can all be left off.
+
+- `EVS` represent AVs in Pokémon Let's Go.
+
+- `IVS` represent DVs in Gen 1-2. The IV will be divided by 2 and rounded down,
+  to become DVs (so the default of 31 IVs is converted to 15 DVs).
+
+- `IVS` is post-hyper-training: pre-hyper-training IVs are represented in
+  `HIDDENPOWERTYPE`
+
+- `SHINY` is `S` for shiny, and blank for non-shiny.
+
+- `LEVEL` is left blank for level 100.
+
+- `HAPPINESS` is left blank for 255.
+
+- `POKEBALL` is left blank if it's a regular Poké Ball.
+
+- `HIDDENPOWERTYPE` is left blank if the Pokémon is not Hyper Trained, if
+  Hyper Training doesn't affect IVs, or if it's represented by a move in
+  the moves list.
+
+- If `POKEBALL` and `HIDDENPOWERTYPE` are both blank, the commas will be left
+  off.
+
 
 Converting between formats
 --------------------------
 
-API:
-
-`Sim.Teams.unpack(packedTeam: string): PokemonSet[]`
+`Teams.unpack(packedTeam: string): PokemonSet[]`
 
 - Converts a packed team to a JSON team
 
-`Sim.Teams.pack(team: PokemonSet[]): string`
+`Teams.pack(team: PokemonSet[]): string`
 
 - Converts a JSON team to a packed team
 
-`Sim.Teams.export(team: PokemonSet[]): string`
+`Teams.import(exportedTeam: string): PokemonSet[]`
+
+- Converts a team in any string format (JSON, exported, or packed) to a JSON team
+
+`Teams.export(team: PokemonSet[]): string`
 
 - Converts a JSON team to an export team
 
-`Sim.Teams.exportSet(set: PokemonSet): string`
+`Teams.exportSet(set: PokemonSet): string`
 
 - Converts a JSON set to export format
 
-`Sim.Teams.generate(format: Format | string, options?: {seed: number[4]}): PokemonSet`
-
-- Generate a team for a random format
-
-(Import is not available in this version; we'll add it to a future version.)
+To convert from export to packed (or vice versa), just round-trip through PokemonSet: `Teams.export(Teams.unpack(packedTeam))` will produce an exported team.
 
 Example use:
 
 ```js
-const Sim = require('pokemon-showdown');
+const {Teams} = require('pokemon-showdown');
 
-console.log(JSON.stringify(Sim.Teams.unpack(
+console.log(JSON.stringify(Teams.unpack(
   `Articuno||leftovers|pressure|icebeam,hurricane,substitute,roost|Modest|252,,,252,4,||,,,30,30,|||]Ludicolo||lifeorb|swiftswim|surf,gigadrain,icebeam,raindance|Modest|4,,,252,,252|||||]Volbeat||damprock|prankster|tailglow,batonpass,encore,raindance|Bold|248,,252,,8,|M||||]Seismitoad||lifeorb|swiftswim|hydropump,earthpower,stealthrock,raindance|Modest|,,,252,4,252|||||]Alomomola||damprock|regenerator|wish,protect,toxic,raindance|Bold|252,,252,,4,|||||]Armaldo||leftovers|swiftswim|xscissor,stoneedge,aquatail,rapidspin|Adamant|128,252,4,,,124|||||`
 )));
 
 // will log the team to console in JSON format
 
 ```
+
+
+Random team generator
+---------------------
+
+`Teams.generate(format: Format | string, options?: {seed: number[4]}): PokemonSet[]`
+
+- Generate a team for a random format
 
 
 Team validator
@@ -209,12 +265,12 @@ The team validator is separate from the simulator.
 In JavaScript, it's available directly as a function:
 
 ```js
-const Sim = require('pokemon-showdown');
+const {Teams, TeamValidator} = require('pokemon-showdown');
 
-const validator = new Sim.TeamValidator('gen6nu');
+const validator = new TeamValidator('gen6nu');
 
 const output = validator.validateTeam(
-  Sim.Teams.unpack(
+  Teams.unpack(
     `Articuno||leftovers|pressure|icebeam,hurricane,substitute,roost|Modest|252,,,252,4,||,,,30,30,|||]Ludicolo||lifeorb|swiftswim|surf,gigadrain,icebeam,raindance|Modest|4,,,252,,252|||||]Volbeat||damprock|prankster|tailglow,batonpass,encore,raindance|Bold|248,,252,,8,|M||||]Seismitoad||lifeorb|swiftswim|hydropump,earthpower,stealthrock,raindance|Modest|,,,252,4,252|||||]Alomomola||damprock|regenerator|wish,protect,toxic,raindance|Bold|252,,252,,4,|||||]Armaldo||leftovers|swiftswim|xscissor,stoneedge,aquatail,rapidspin|Adamant|128,252,4,,,124|||||`
   )
 );
@@ -222,4 +278,10 @@ const output = validator.validateTeam(
 
 `output` will be an array of problems, if it's not a legal team, or `null`, if it's a legal team.
 
-If you're not using JavaScript, use the commandline API: https://github.com/smogon/pokemon-showdown/blob/master/COMMANDLINE.md
+
+Command-line API
+----------------
+
+If you're not using JavaScript, all of these APIs (conversion, generating random teams, validating teams) are available via the commandline API: [COMMANDLINE.md](./../COMMANDLINE.md).
+
+They use standard IO, so any programming language supporting fork/exec should be able to call into them.
