@@ -3,7 +3,7 @@
  * Pokemon Showdown - http://pokemonshowdown.com/
  *
  * Example of how to create AIs battling against each other.
- * Run this using `node build && node .sim-dist/examples/sim-testing`.
+ * Run this using `node build && node dist/sim/examples/battle-stream-example-2`.
  *
  * @license MIT
  * @author Guangcong Luo <guangcongluo@gmail.com>
@@ -19,15 +19,15 @@ import {BattleStream, getPlayerStreams, Teams} from '..';
 const streams = getPlayerStreams(new BattleStream());
 
 const spec = {
-	formatid: "gen8customgame",
+	formatid: "gen9customgame",
 };
 const p1spec = {
 	name: "Bot 1",
-	team: Teams.pack(Teams.generate('gen8randombattle')),
+	team: Teams.pack(Teams.generate('gen9randombattle')),
 };
 const p2spec = {
 	name: "Bot 2",
-	team: Teams.pack(Teams.generate('gen8randombattle')),
+	team: Teams.pack(Teams.generate('gen9randombattle')),
 };
 
 // const p1 = new RandomPlayerAI(streams.p1);
