@@ -29,4 +29,4 @@ export {TeamValidator} from './team-validator';
 // misc libraries
 
 export * from '../lib';
-export {Moves} from '../data/moves'; 
+export {Moves} from '../data/moves';

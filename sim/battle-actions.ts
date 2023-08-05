@@ -1334,7 +1334,6 @@ export class BattleActions {
 				const secondaryOverflow = (secondary.boosts || secondary.self) && this.battle.gen <= 8;
 				if (typeof secondary.chance === 'undefined' ||
 					secondaryRoll < (secondaryOverflow ? secondary.chance % 256 : secondary.chance)) {
-
 					this.moveHit(target, source, move, secondary, true, isSelf);
 				}
 			}
