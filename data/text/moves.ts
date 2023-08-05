@@ -947,6 +947,11 @@ export const MovesText: {[k: string]: MoveText} = {
 		desc: "Raises the target's Attack and Defense by 1 stage. Fails if there is no ally adjacent to the user.",
 		shortDesc: "Raises an ally's Attack and Defense by 1.",
 	},
+	coalscatter: {
+		name: "Coal Scatter",
+		desc: "Has a 10% chance to make the target flinch.",
+		shortDesc: "10% chance to make the target flinch.",
+	},
 	coil: {
 		name: "Coil",
 		desc: "Raises the user's Attack, Defense, and accuracy by 1 stage.",
@@ -1567,6 +1572,11 @@ export const MovesText: {[k: string]: MoveText} = {
 		desc: "The user recovers 3/4 the HP lost by the target, rounded half up. If Big Root is held by the user, the HP recovered is 1.3x normal, rounded half down.",
 		shortDesc: "User recovers 75% of the damage dealt.",
 	},
+	drainlife: {
+		name: "Drain Life",
+		desc: "The user recovers 3/4 the HP lost by the target, rounded half up. If Big Root is held by the user, the HP recovered is 1.3x normal, rounded half down.",
+		shortDesc: "User recovers 75% of the damage dealt.",
+	},
 	drainpunch: {
 		name: "Drain Punch",
 		desc: "The user recovers 1/2 the HP lost by the target, rounded half up. If Big Root is held by the user, the HP recovered is 1.3x normal, rounded half down.",
@@ -1624,6 +1634,11 @@ export const MovesText: {[k: string]: MoveText} = {
 		name: "Dynamic Punch",
 		desc: "Has a 100% chance to confuse the target.",
 		shortDesc: "100% chance to confuse the target.",
+	},
+	eagleeye: {
+		name: "Eagle Eye",
+		desc: "Raises the user's accuracy by 3 stages.",
+		shortDesc: "Raises the user's accuracy by 3.",
 	},
 	earthpower: {
 		name: "Earth Power",
@@ -2383,6 +2398,11 @@ export const MovesText: {[k: string]: MoveText} = {
 		shortDesc: "Charges, then raises SpA, SpD, Spe by 2 turn 2.",
 
 		prepare: "[POKEMON] is absorbing power!",
+	},
+	germspray: {
+		name: "Germ Spray",
+		desc: "Has a 10% chance to poison the target and a separate 10% chance to lower the target's Special Defense by 1 stage. Effect chances double with each successful hit, up to a maximum of 100%. The effect chances reset if this move misses or another move is used.",
+		shortDesc: "10% chance to poison the foe and separate 10% chance to lower the foe(s) Special Defense by 1 both double on each hit, up to 100%.",
 	},
 	gigadrain: {
 		name: "Giga Drain",
@@ -3652,6 +3672,11 @@ export const MovesText: {[k: string]: MoveText} = {
 		desc: "No additional effect.",
 		shortDesc: "Usually goes first.",
 	},
+	machturn: {
+		name: "Mach Turn",
+		desc: "Hits twice. If the first hit breaks the target's substitute, it will take damage for the second hit.",
+		shortDesc: "Hits 2 times in one turn, and usually goes first.",
+	},
 	magicalleaf: {
 		name: "Magical Leaf",
 		shortDesc: "This move does not check accuracy.",
@@ -4369,6 +4394,10 @@ export const MovesText: {[k: string]: MoveText} = {
 		desc: "Has a higher chance for a critical hit.",
 		shortDesc: "High critical hit ratio.",
 	},
+	nip: {
+		name: "Nip",
+		shortDesc: "No additional effect.",
+	},
 	nobleroar: {
 		name: "Noble Roar",
 		desc: "Lowers the target's Attack and Special Attack by 1 stage.",
@@ -4485,6 +4514,11 @@ export const MovesText: {[k: string]: MoveText} = {
 		desc: "Has a 20% chance to lower the target's Attack by 1 stage.",
 		shortDesc: "20% chance to lower the target's Attack by 1.",
 	},
+	paraneedle: {
+		name: "Para Needle",
+		desc: "Has a 100% chance to paralyze the target.",
+		shortDesc: "100% chance to paralyze the target.",
+	},
 	paraboliccharge: {
 		name: "Parabolic Charge",
 		desc: "The user recovers 1/2 the HP lost by the target, rounded half up. If Big Root is held by the user, the HP recovered is 1.3x normal, rounded half down.",
@@ -4591,6 +4625,10 @@ export const MovesText: {[k: string]: MoveText} = {
 		gen1: {
 			desc: "Hits two to five times. Has a 3/8 chance to hit two or three times, and a 1/8 chance to hit four or five times. Damage is calculated once for the first hit and used for every hit. If one of the hits breaks the target's substitute, the move ends.",
 		},
+	},
+	pistonkick: {
+		name: "Piston Kick",
+		shortDesc: "No additional effect.",
 	},
 	plasmafists: {
 		name: "Plasma Fists",
@@ -4804,6 +4842,11 @@ export const MovesText: {[k: string]: MoveText} = {
 		name: "Psyblade",
 		desc: "If the current terrain is Electric Terrain, this move's power is multiplied by 1.5.",
 		shortDesc: "During Electric Terrain: 1.5x power.",
+	},
+	psychout: {
+		name: "Psych Out",
+		desc: "Lowers the target's Special Defense by 1 stage and raises the user's Sepecial Attack by 1.",
+		shortDesc: "Lowers the foe(s) Sp. Def by 1 and raises the user's Sp. Atk by 1.",
 	},
 	psychup: {
 		name: "Psych Up",
@@ -5544,6 +5587,11 @@ export const MovesText: {[k: string]: MoveText} = {
 		name: "Shadow Claw",
 		desc: "Has a higher chance for a critical hit.",
 		shortDesc: "High critical hit ratio.",
+	},
+	shadowdart: {
+		name: "Shadow Dart",
+		desc: "This move hits Pokemon using Backstab, Bounce, Dig, Dive, Drag Under, Fly, High-Speed Dive, Phantom Force, Ring of Fire, Shadow Force, or Sky Drop.",
+		shortDesc: "Hits Pokemon using Backstab, Bounce, Dig, Dive, Drag Under, Fly, High-Speed Dive, Phantom Force, Ring of Fire, Shadow Force, or Sky Drop.",
 	},
 	shadowforce: {
 		name: "Shadow Force",
