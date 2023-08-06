@@ -51,6 +51,10 @@ const DATA_TYPES: (DataType | 'Aliases')[] = [
 	'Abilities', 'Rulesets', 'FormatsData', 'Items', 'Learnsets', 'Moves',
 	'Natures', 'Pokedex', 'Scripts', 'Conditions', 'TypeChart', 'PokemonGoData',
 ];
+type TextDataType =
+	'Abilities' | 'Default' | 'Items' | 'Moves' | 'Pokedex';
+const TEXT_DATA_TYPES: TextDataType[] = 
+	['Abilities', 'Default', 'Items', 'Moves', 'Pokedex'];
 
 const DATA_FILES = {
 	Abilities: 'abilities',
@@ -94,6 +98,10 @@ interface TextTableData {
 	Pokedex: DexTable<PokedexText>;
 	Default: DexTable<DefaultText>;
 }
+export interface CustomData {
+	Dex: DexTableData;
+	Text: TextTableData;
+}
 
 export const toID = Data.toID;
 
@@ -111,13 +119,15 @@ export class ModdedDex {
 	readonly isBase: boolean;
 	readonly currentMod: string;
 	readonly dataDir: string;
-
+	
 	readonly toID = Data.toID;
-
+	
 	gen = 0;
 	parentMod = '';
+	customDataLoaded = false;
 	modsLoaded = false;
-
+	
+	customData: CustomData | null;
 	dataCache: DexTableData | null;
 	textCache: TextTableData | null;
 
@@ -134,10 +144,12 @@ export class ModdedDex {
 	readonly stats: Data.DexStats;
 
 	constructor(mod = 'base') {
+		// console.log("new moddedDex", mod);
 		this.isBase = (mod === 'base');
 		this.currentMod = mod;
 		this.dataDir = (this.isBase ? DATA_DIR : MODS_DIR + '/' + this.currentMod);
-
+		
+		this.customData = null;
 		this.dataCache = null;
 		this.textCache = null;
 
@@ -171,7 +183,8 @@ export class ModdedDex {
 		return this.mod(`gen${gen}`);
 	}
 
-	forFormat(format: Format | string): ModdedDex {
+	forFormat(format: Format | string, customData?: CustomData): ModdedDex {
+		if (customData) this.loadCustomData(customData);
 		if (!this.modsLoaded) this.includeMods();
 		const mod = this.formats.get(format).mod;
 		return dexes[mod || BASE_MOD].includeData();
@@ -416,6 +429,30 @@ export class ModdedDex {
 		}
 
 		return searchResults;
+	}
+
+	loadCustomData(customData: AnyObject) {
+		this.customData = customData as CustomData;
+
+		if (!this.customDataLoaded) {
+			this.loadCustomTextData(customData);
+			for (const dataType of DATA_TYPES) {
+				if (customData.Dex[dataType] && this.dataCache?.[dataType]) {
+					this.dataCache[dataType] = Object.assign(this.dataCache[dataType], customData.Dex[dataType])
+				}
+			}
+			this.customDataLoaded = true;
+		}
+	}
+
+	loadCustomTextData(customData: AnyObject) {
+		if (dexes['base'].textCache && this.customData?.Text) {
+			for (const textDataType of TEXT_DATA_TYPES) {
+				if (customData.Text[textDataType] && this.textCache?.[textDataType]) {
+					this.textCache[textDataType] = Object.assign(this.textCache[textDataType], customData.Text[textDataType])
+				}
+			}
+		}
 	}
 
 	loadDataFile(basePath: string, dataType: DataType | 'Aliases'): AnyObject {
