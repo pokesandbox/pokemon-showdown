@@ -195,7 +195,6 @@ export class Battle {
 		const format = options.format || Dex.formats.get(options.formatid, true);
 		this.format = format;
 		this.dex = Dex.forFormat(format, options.customData);
-		console.log(this.dex.species.get('1010726453974925402acafia'));
 		this.gen = this.dex.gen;
 		this.ruleTable = this.dex.formats.getRuleTable(format);
 
