@@ -337,15 +337,14 @@ describe('Counter', function () {
 		assert(battle.lastDamage < 100);
 	});
 
-	// Put test back in once updating the seed is figured out.
-	// it(`[Gen 1] Metronome calling Counter fails`, function () {
-	// 	battle = common.gen(1).createBattle({seed: [1, 3, 1, 7]}, [[
-	// 		{species: 'Persian', moves: ['Swift']},
-	// 	], [
-	// 		{species: 'Chansey', moves: ['Metronome']},
-	// 	]]);
-	// 	battle.makeChoices();
-	// 	assert(battle.log.some(line => line.includes('Chansey|Counter')));
-	// 	assert.fullHP(battle.p1.active[0]);
-	// });
+	it(`[Gen 1] Metronome calling Counter fails`, function () {
+		battle = common.gen(1).createBattle({seed: [1, 3, 1, 7]}, [[
+			{species: 'Persian', moves: ['Swift']},
+		], [
+			{species: 'Chansey', moves: ['Metronome']},
+		]]);
+		battle.makeChoices();
+		assert(battle.log.some(line => line.includes('Chansey|Counter')));
+		assert.fullHP(battle.p1.active[0]);
+	});
 });
