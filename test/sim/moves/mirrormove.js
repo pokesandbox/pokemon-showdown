@@ -70,17 +70,16 @@ describe('Mirror Move [Gen 1]', function () {
 		assert.false(battle.log.some(line => line.includes('|move|p1a: Fearow|Metronome|p1a: Fearow|[from]Mirror Move')));
 	});
 
-	// Put test back in once updating the seed is figured out.
-	// it(`[Gen 1] Mirror Move should copy Metronome if Metronome calls a two-turn move`, function () {
-	// 	battle = common.gen(1).createBattle({seed: [0, 1, 0, 1]}, [[
-	// 		{species: 'fearow', moves: ['mirrormove']},
-	// 	], [
-	// 		{species: 'alakazam', moves: ['metronome']},
-	// 	]]);
-	// 	battle.makeChoices();
-	// 	assert(battle.p2.active[0].volatiles['twoturnmove']);
-	// 	assert(battle.log.some(line => line.includes('|move|p1a: Fearow|Metronome|p1a: Fearow|[from]Mirror Move')));
-	// });
+	it(`[Gen 1] Mirror Move should copy Metronome if Metronome calls a two-turn move`, function () {
+		battle = common.gen(1).createBattle({seed: [0, 1, 0, 1]}, [[
+			{species: 'fearow', moves: ['mirrormove']},
+		], [
+			{species: 'alakazam', moves: ['metronome']},
+		]]);
+		battle.makeChoices();
+		assert(battle.p2.active[0].volatiles['twoturnmove']);
+		assert(battle.log.some(line => line.includes('|move|p1a: Fearow|Metronome|p1a: Fearow|[from]Mirror Move')));
+	});
 });
 
 describe('Mirror Move [Gen 2]', function () {
