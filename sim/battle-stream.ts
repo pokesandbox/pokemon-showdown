@@ -97,6 +97,14 @@ export class BattleStream extends Streams.ObjectReadWriteStream<string> {
 				this.battle!.choose(type, message);
 			}
 			break;
+		case 'updatePlayerState':
+			const pokemonStates = JSON.parse(message);
+			for (const pokeState of pokemonStates) {
+				this.battle!.sides[0].pokemon[pokeState.position].hp = pokeState.hp;
+				// Need to figure out status names and all places fainted pokemon are stored
+				// this.battle!.sides[0].pokemon[pokeState.position].status = pokeState.status;
+			}
+			break;
 		case 'forcewin':
 		case 'forcetie':
 			this.battle!.win(type === 'forcewin' ? message as SideID : null);
