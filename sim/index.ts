@@ -15,6 +15,7 @@ export { BattleStream, getPlayerStreams } from './battle-stream';
 export { Pokemon } from './pokemon';
 export { PRNG } from './prng';
 export { Side } from './side';
+export { RandomPlayerAI } from './tools/random-player-ai';
 
 // dex API
 
@@ -28,3 +29,4 @@ export { TeamValidator } from './team-validator';
 // misc libraries
 
 export * from '../lib';
+export { Moves } from '../data/moves';
